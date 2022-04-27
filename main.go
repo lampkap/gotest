@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	db "webapp/config/database"
 	"webapp/src/api"
 
@@ -18,7 +19,7 @@ func main() {
 	r := mux.NewRouter()
 	handleTransactions(r)
 
-	port := "8080"
+	port := os.Getenv("PORT")
 	println("listening on port", port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
