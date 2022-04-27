@@ -1,7 +1,9 @@
 package db
 
 import (
-	"gorm.io/driver/mysql"
+	"os"
+
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -14,8 +16,9 @@ type Transaction struct {
 var DB *gorm.DB
 
 func Open() (err error) {
-	dsn := "root:root@tcp(127.0.0.1:3306)/transactions?charset=utf8mb4&parseTime=True&loc=Local"
-	DB, err = gorm.Open(mysql.Open(dsn))
+	dsn := os.Getenv("DATABASE_URL")
+
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		return err
