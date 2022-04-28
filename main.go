@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/subtle"
 	"log"
 	"net/http"
 	"os"
@@ -49,7 +48,7 @@ func BasicAuth(w http.ResponseWriter, r *http.Request) bool {
 	password := os.Getenv("HTTP_PASSWORD")
 	user, pass, ok := r.BasicAuth()
 
-	if !ok || subtle.ConstantTimeCompare([]byte(user), []byte(username)) != 1 || subtle.ConstantTimeCompare([]byte(pass), []byte(password)) != 1 {
+	if !ok || username != user || password != pass {
 		w.WriteHeader(401)
 		w.Write([]byte("Unauthorised.\n"))
 		return false
